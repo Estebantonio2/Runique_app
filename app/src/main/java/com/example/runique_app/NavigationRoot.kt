@@ -1,5 +1,9 @@
 package com.example.runique_app
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,17 +14,20 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.auth.presentation.intro.IntroScreenRoot
+import com.example.auth.presentation.login.LoginScreenRot
 import com.example.auth.presentation.register.RegisterScreenRot
 
 @Composable
 fun NavigationRoot(
-    navController: NavHostController
+    navController: NavHostController,
+    isLoggedIn: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = "auth"
+        startDestination = if (isLoggedIn) "run" else "auth"
     ) {
         authGraph(navController)
+        runGraph(navController)
     }
 }
 
@@ -56,7 +63,35 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
             )
         }
         composable(route = "login") {
-            Text(text = "login")
+            LoginScreenRot(
+                onLoginSuccess = {
+                    navController.navigate("run") {
+                        popUpTo("auth") {
+                            inclusive = true
+                        }
+                    }
+                },
+                onSignUpClick = {
+                    navController.navigate("register") {
+                        popUpTo("login") {
+                            inclusive = true
+                            saveState = true
+                        }
+                        restoreState = true
+                    }
+                }
+            )
+        }
+    }
+}
+
+private fun NavGraphBuilder.runGraph(navController: NavHostController) {
+    navigation(
+        startDestination = "run_overview",
+        route = "run"
+    ) {
+        composable(route = "run_overview") {
+            Text(text = "Run overview!")
         }
     }
 }
