@@ -59,7 +59,7 @@ private fun RuniqueFloatingActionButtonPreview() {
     RuniqueTheme { 
         RuniqueFloatingActionButton(
             icon = RunIcon,
-            onClick = { TODO() }
+            onClick = {  }
         )
     }
 }
