@@ -5,9 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
@@ -27,19 +30,16 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             RuniqueTheme {
-                Scaffold(
+                Surface(
                     modifier = Modifier.fillMaxSize(),
-                ) { innerPadding ->
-                    Column(
-                        modifier = Modifier.padding(innerPadding)
-                    ) {
-                        if (!viewModel.state.isCheckingAuth) {
-                            val navController = rememberNavController()
-                            NavigationRoot(
-                                navController = navController,
-                                isLoggedIn = viewModel.state.isLoggedIn
-                            )
-                        }
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    if(!viewModel.state.isCheckingAuth) {
+                        val navController = rememberNavController()
+                        NavigationRoot(
+                            navController = navController,
+                            isLoggedIn = viewModel.state.isLoggedIn
+                        )
                     }
                 }
             }
